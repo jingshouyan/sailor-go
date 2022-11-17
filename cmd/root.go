@@ -5,7 +5,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,6 +23,17 @@ import (
 	"github.com/spf13/viper"
 )
 
+var (
+	version string = "1.0-snapshot"
+	commit  string
+	date    string
+	buildBy string
+)
+
+func versionInfo() string {
+	return fmt.Sprintf("version: %s\ncommit: %s\nbuilt by: %s\nbuilt at: %s", version, commit, date, buildBy)
+}
+
 var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
@@ -38,6 +49,7 @@ to quickly create a Cobra application.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
+	Version: versionInfo(),
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -61,6 +73,8 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+
+	rootCmd.SetVersionTemplate("{{.Name}}\n{{.Version}}")
 }
 
 // initConfig reads in config file and ENV variables if set.
